@@ -228,7 +228,7 @@ def audit_folder(data_dir: str | Path = "data") -> dict:
                 "csv_files": [], "tables": [], "shared_columns": [], "other_files_ignored": [],
                 "today_guess": {"found": False, "note": "No data folder."}}
     # Match .csv in any letter case (DATA.CSV is a CSV too).
-    everything = sorted(p for p in data_dir.iterdir() if p.is_file() and p.name != ".gitkeep")
+    everything = sorted(p for p in data_dir.iterdir() if p.is_file() and p.name != ".gitkeep" and not p.name.startswith(".write_probe"))
     files = [p for p in everything if p.suffix.lower() == ".csv"]
     other = [p.name for p in everything if p.suffix.lower() != ".csv"]
     tables = [audit_table(p) for p in files]

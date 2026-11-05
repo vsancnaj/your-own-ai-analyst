@@ -56,7 +56,7 @@ File names are the only contract between skills. The model decides what to compu
 ## Advice versus enforcement
 | Rule | Enforced by | Note |
 |---|---|---|
-| Never edit `data/` | `Edit(/data/**)` deny rule, sandbox write block on `data/` | The sandbox block needs testing on your Claude Code version. |
+| Never edit `data/` | `Edit(/data/**)` deny rule, sandbox write block on `data/` | Run `/check-safety` to test it on your machine. |
 | No deleting files (the usual commands) | deny rules on `rm`, `rmdir`, `git clean` | Bash rules match the usual command text only. `find -delete`, `mv` or a Python script can still delete; only the sandbox is meant to stop that, and it has to be tested. |
 | Skills that must not edit | `disallowed-tools: Edit` in `frame`, `validate`, `deliver`; `/analyst` runs `validate` and `deliver` in fresh subagents | `Write` is still needed for their output files, so a skill could still overwrite a file. This limit holds only when the skill is run as its own command or subagent, not when it is read inline. |
 | Aggregates only, no raw rows | a line in `AGENTS.md` and a checklist item in `validate` | Cannot be enforced by a rule. |

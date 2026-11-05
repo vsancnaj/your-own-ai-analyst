@@ -17,7 +17,7 @@ knowledge/quirks.md      facts about the data a human confirmed
 knowledge/corrections.md dated one-line corrections from the user
 helpers/                 audit, profile, checks, charts, context; the arithmetic runs here
 outputs/<date>_<slug>/   one folder per question: frame.md, analysis.py, data/, charts/, review.md, brief.md
-.claude/skills/          setup, analyst, frame, profile, analyse, validate, deliver
+.claude/skills/          setup, check-safety, analyst, frame, profile, analyse, validate, deliver
 .claude/settings.json    permission rules and sandbox (enforced, unlike this file)
 ```
 The file names above are the contract between skills. Do not rename them.
@@ -26,7 +26,7 @@ The file names above are the contract between skills. Do not rename them.
 - Run Python with `poetry run python ...` from the repo root.
 - "Today" is the `today:` line in `knowledge/context.md`, never the computer's date. Use `helpers.context.analysis_today()`.
 - Never print raw rows into the conversation; aggregates only.
-- Never modify anything in `data/`.
+- Never modify anything in `data/`. The one exception: `/check-safety` may try a probe write that is expected to be blocked.
 - Read `knowledge/` before touching data. When the user corrects you, append one dated line to `knowledge/corrections.md` and continue.
 - Only the user confirms a quirk. Never write one into `knowledge/quirks.md` on your own.
 - Mark every guess "(inferred)" until a person confirms it.

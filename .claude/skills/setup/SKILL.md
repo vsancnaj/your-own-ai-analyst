@@ -66,9 +66,9 @@ If the audit flagged an ambiguous or mixed date order, ask this first, before an
 ## Phase 5: Protections
 
 1. Read `.claude/settings.json` in the repo. Confirm the deny rules for `data/` are there. If missing, say so.
-2. Check whether the sandbox is on: look for `"sandbox"` with `"enabled": true` in `.claude/settings.json`, `.claude/settings.local.json` and `~/.claude/settings.json`. You cannot see the live state, so say "set to on" or "not set", and tell the user to type `/sandbox` to check.
+2. Check whether the sandbox is on: look for `"sandbox"` with `"enabled": true` in `.claude/settings.json`, `.claude/settings.local.json` and `~/.claude/settings.json`. You cannot see the live state, so say "set to on" or "not set", and tell the user to type `/sandbox` to look and `/check-safety` to test it.
 3. Explain like to a five year old: without the sandbox the helper can go into every room and the rule "do not touch the toys" is only advice; with it the helper plays in a playpen whose walls are meant to hold even when a script runs (the README says this has to be tested on the user's own machine, so do not promise it).
-4. Ask: turn it on (type `/sandbox`) / explain again / skip, I accept the risk / I don't know. Record the answer, never hide a skip.
+4. Ask: turn it on (type `/sandbox`) / explain again / skip, I accept the risk / I don't know. Record the answer, never hide a skip. After they turn it on, tell them to run `/check-safety`, which tries two harmless forbidden actions and shows what held; that is the only way to see the real state.
 
 ## Phase 6: Write the knowledge folder
 
