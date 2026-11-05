@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" width="1000" height="400" role="img" aria-label="How it works: your CSV data goes into setup, you ask a question, five steps run, and you get a checked brief with charts. Rules protect your data.">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6B5B95"/>
+    </marker>
+    <style>
+      text { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #2B2540; }
+      .title { font-size: 15px; font-weight: 700; }
+      .sub { font-size: 12.5px; fill: #5A5470; }
+      .label { font-size: 12px; font-weight: 700; fill: #6B5B95; letter-spacing: 0.6px; }
+      .box { fill: #FFFFFF; stroke: #6B5B95; stroke-width: 1.6; }
+      .soft { fill: #F1EDF8; stroke: #6B5B95; stroke-width: 1.2; }
+      .out { fill: #6B5B95; }
+      .outtext { fill: #FFFFFF; }
+      .guard { fill: #FFF7E6; stroke: #D69E2E; stroke-width: 1.4; stroke-dasharray: 6 4; }
+      .line { stroke: #6B5B95; stroke-width: 1.8; fill: none; }
+    </style>
+  </defs>
+  <rect width="1000" height="400" rx="14" fill="#FBFAFE"/>
+
+  <!-- Row 1 -->
+  <text class="label" x="40" y="38">ONCE</text>
+  <rect class="box" x="40" y="50" width="250" height="84" rx="10"/>
+  <text class="title" x="60" y="82">1. Your data</text>
+  <text class="sub" x="60" y="104">CSV files from Kaggle, work,</text>
+  <text class="sub" x="60" y="122">or any export. Put in data/</text>
+
+  <rect class="box" x="375" y="50" width="250" height="84" rx="10"/>
+  <text class="title" x="395" y="82">2. /setup</text>
+  <text class="sub" x="395" y="104">A few easy questions, then it</text>
+  <text class="sub" x="395" y="122">audits your files and saves notes</text>
+
+  <text class="label" x="710" y="38">EVERY TIME</text>
+  <rect class="box" x="710" y="50" width="250" height="84" rx="10"/>
+  <text class="title" x="730" y="82">3. Ask a question</text>
+  <text class="sub" x="730" y="104">/analyst what changed after</text>
+  <text class="sub" x="730" y="122">we raised the price?</text>
+
+  <line class="line" x1="290" y1="92" x2="372" y2="92" marker-end="url(#arrow)"/>
+  <line class="line" x1="625" y1="92" x2="707" y2="92" marker-end="url(#arrow)"/>
+
+  <!-- Row 2: pipeline -->
+  <path class="line" d="M835 134 L835 168 L100 168 L100 188" marker-end="url(#arrow)"/>
+
+  <rect class="soft" x="40" y="190" width="170" height="88" rx="10"/>
+  <text class="title" x="60" y="220">Frame</text>
+  <text class="sub" x="60" y="242">Which decision?</text>
+  <text class="sub" x="60" y="260">What would change it?</text>
+
+  <rect class="soft" x="228" y="190" width="170" height="88" rx="10"/>
+  <text class="title" x="248" y="220">Profile</text>
+  <text class="sub" x="248" y="242">Know each table</text>
+  <text class="sub" x="248" y="260">before trusting it</text>
+
+  <rect class="soft" x="416" y="190" width="170" height="88" rx="10"/>
+  <text class="title" x="436" y="220">Analyse</text>
+  <text class="sub" x="436" y="242">Code does the maths,</text>
+  <text class="sub" x="436" y="260">every number compared</text>
+
+  <rect class="soft" x="604" y="190" width="170" height="88" rx="10"/>
+  <text class="title" x="624" y="220">Validate</text>
+  <text class="sub" x="624" y="242">A reviewer with fresh</text>
+  <text class="sub" x="624" y="260">eyes looks for bias</text>
+
+  <rect class="soft" x="792" y="190" width="168" height="88" rx="10"/>
+  <text class="title" x="812" y="220">Deliver</text>
+  <text class="sub" x="812" y="242">Writes the brief,</text>
+  <text class="sub" x="812" y="260">lists what is unchecked</text>
+
+  <line class="line" x1="210" y1="234" x2="226" y2="234" marker-end="url(#arrow)"/>
+  <line class="line" x1="398" y1="234" x2="414" y2="234" marker-end="url(#arrow)"/>
+  <line class="line" x1="586" y1="234" x2="602" y2="234" marker-end="url(#arrow)"/>
+  <line class="line" x1="774" y1="234" x2="790" y2="234" marker-end="url(#arrow)"/>
+
+  <!-- Row 3 -->
+  <path class="line" d="M876 278 L876 308" marker-end="url(#arrow)"/>
+  <rect class="out" x="620" y="310" width="340" height="72" rx="10"/>
+  <text class="title outtext" x="640" y="339">You get: a checked brief</text>
+  <text class="sub outtext" x="640" y="361" style="fill:#FFFFFF">Takeaways, charts, and a list of what is unverified</text>
+
+  <rect class="guard" x="40" y="310" width="540" height="72" rx="10"/>
+  <text class="title" x="60" y="339">Safety built in</text>
+  <text class="sub" x="60" y="361">Your data is never edited. Rules and a sandbox enforce it, not just a polite note.</text>
+</svg>

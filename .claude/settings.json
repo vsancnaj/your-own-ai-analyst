@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(/data/**)",
+      "Bash(rm *)",
+      "Bash(rmdir *)",
+      "Bash(git clean *)",
+      "Bash(sudo *)",
+      "Read(./.env)"
+    ],
+    "allow": [
+      "Bash(poetry run python *)",
+      "Edit(/outputs/**)",
+      "Edit(/knowledge/**)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "filesystem": {
+      "denyWrite": ["./data"]
+    }
+  }
+}

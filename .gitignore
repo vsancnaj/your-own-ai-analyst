@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.mcp.json
+.ruff_cache/
+.claude/settings.local.json
+# Your data and your results stay on your machine, never in the repo.
+data/*
+!data/.gitkeep
+outputs/*
+!outputs/.gitkeep
+knowledge/*
+!knowledge/.gitkeep
+!knowledge/tables/.gitkeep
