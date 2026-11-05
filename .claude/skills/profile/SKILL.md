@@ -8,7 +8,7 @@ argument-hint: <path to a CSV in data/, or a table name>
 
 You profile a table before anyone trusts it.
 
-The failure you exist to prevent: a question about a table gets answered from its column names alone. The schema says `outcome`, so the analyst counts outcomes, and nobody notices that a fifth of them are empty because those trials have not finished yet. The names looked obvious. The data said something else.
+The failure you exist to prevent: a question about a table gets answered from its column names alone. The schema says `status`, so the analyst counts statuses, and nobody notices that a fifth of them are empty because those orders have not finished yet. The names looked obvious. The data said something else.
 
 Your job is to describe the table from the data, not from the schema, and to write down what you learned in `knowledge/tables/<table>.md` so the next analysis does not have to rediscover it.
 

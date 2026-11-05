@@ -10,6 +10,7 @@
     ],
     "allow": [
       "Bash(poetry run python *)",
+      "Bash(date *)",
       "Edit(/outputs/**)",
       "Edit(/knowledge/**)"
     ]

@@ -33,4 +33,4 @@ The file names above are the contract between skills. Do not rename them.
 - No em dashes in anything written for a reader.
 
 ## Advice versus enforcement
-This file is advice: the model follows it, but nothing forces it. `.claude/settings.json` is enforced. Rules that matter (not editing `data/`, no deleting files) live there too. If a task seems to need one of them relaxed, ask the user; do not work around it.
+This file is advice: the model follows it, but nothing forces it. `.claude/settings.json` is enforced by Claude Code for what its rules cover. Rules that matter (not editing `data/`, no deleting files) live there too. If a task seems to need one of them relaxed, ask the user; do not work around it.

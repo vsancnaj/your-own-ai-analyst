@@ -49,7 +49,7 @@ These hold in every act.
 Write three to six bullets describing the computation. The plan must say:
 
 - What each headline number is and the comparison it will carry (prior period, segment or benchmark), or that none exists.
-- How each applicable quirk is handled. Use the quirks the user confirmed in `knowledge/quirks.md`. For example, if a quirk says free plans never end, exclude them from churn; if one names a month with an anomaly, name it whenever it enters a comparison. Also state how unfinished items (a trial, an order, the current month) are kept out.
+- How each applicable quirk is handled. Use the quirks the user confirmed in `knowledge/quirks.md`. For example, if a quirk says some records never end, exclude them from any rate that needs an end; if one names a month with an anomaly, name it whenever it enters a comparison. Also state how unfinished items (a trial, an order, the current month) are kept out. If the audit flagged exact duplicate rows and no quirk explains them, run the headline both ways (with and without them) and say which you chose and why.
 - Which segments you will split by and why.
 - Which checks the script will run.
 
@@ -60,10 +60,10 @@ Show the plan before writing the script.
 Write one script at `outputs/<run>/analysis.py`:
 
 1. Read `data/*.csv` with `helpers.profile.read_table`, which parses date columns the same way the setup did. Take today from `helpers.context.analysis_today()`.
-2. Use `helpers.checks` for at least the checks the plan needs: `date_boundaries` for partial periods at the edges, `matured_only` for windows that have not closed, `join_fan_out` before trusting any join, `parts_sum_to_total` when segments should add back to a total. Print each check's `summary`.
+2. Use `helpers.checks` for at least the checks the plan needs: `date_boundaries` for partial periods at the edges (run it with `freq="W"` when you compare by week, or a partial first or last week gets counted as a full one), `today_vs_data` to confirm "today" matches the data's last date (stop and tell the user if it does not), `matured_only` for windows that have not closed, `join_fan_out` before trusting any join, `parts_sum_to_total` when segments should add back to a total. Print each check's `summary`.
 3. Save each result table to `outputs/<run>/data/<name>.csv`.
 4. Make charts only through `helpers.charts`: `bar` or `line`, then `save` into `outputs/<run>/charts/<name>.png`. Every title states the takeaway the chart proves, not a label. For rates and percentages pass `value_fmt` to `bar` (for example `"{:.1f}%"`), or 12.4 shows as 12.
-5. Print the headline numbers, each with its comparison, and the check summaries. Print aggregates only.
+5. Print the headline numbers, each with its comparison, and the check summaries. Print aggregates only. Save every number you will cite later (sensitivities and event dates included) to a result table; the brief may only state numbers found in one.
 
 Run it from the repo root with `poetry run python outputs/<run>/analysis.py`. If it fails, fix it and rerun until it runs clean. If a check fails, decide whether it changes the answer and fix the script or report it. If the data cannot answer the question, say so plainly and stop.
 

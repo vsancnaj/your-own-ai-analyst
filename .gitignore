@@ -11,6 +11,8 @@ data/*
 !data/.gitkeep
 outputs/*
 !outputs/.gitkeep
-knowledge/*
-!knowledge/.gitkeep
+knowledge/context.md
+knowledge/quirks.md
+knowledge/corrections.md
+knowledge/tables/*
 !knowledge/tables/.gitkeep

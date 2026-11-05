@@ -81,15 +81,19 @@ def find_date_columns(df: pd.DataFrame) -> list[str]:
 def find_id_column(df: pd.DataFrame) -> str | None:
     """Return the column most likely to be the table's key, or None.
 
-    Prefers a column named `id`, then one ending in `_id` or `Id`, in column order.
+    Candidates are a column named `id` or ending in `_id` or `Id`. The first candidate
+    whose values are all different wins (so a foreign key such as customer_id in an orders
+    table is passed over for order_id). If none is unique, the first candidate is returned
+    and the duplicates are reported by the caller.
     """
-    for col in df.columns:
-        if col.lower() == "id":
+    candidates = [
+        col for col in df.columns
+        if col.lower() == "id" or col.lower().endswith("_id") or (col.endswith("Id") and len(col) > 2)
+    ]
+    for col in candidates:
+        if df[col].is_unique:
             return col
-    for col in df.columns:
-        if col.lower().endswith("_id") or (col.endswith("Id") and len(col) > 2):
-            return col
-    return None
+    return candidates[0] if candidates else None
 
 
 def read_table(path: str | Path) -> pd.DataFrame:
@@ -173,6 +177,7 @@ def profile_csv(path: str | Path) -> dict:
         "date_columns": date_columns,
         "low_cardinality": low_cardinality,
         "grain_guess": grain_guess,
+        "date_notes": df.attrs.get("date_notes", {}),
     }
 
 
@@ -202,6 +207,12 @@ def profile_to_markdown(result: dict) -> str:
             lines.append(f"- `{col['name']}`: {col['min']} to {col['max']}")
     else:
         lines.append("- None")
+
+    for col, order in result.get("date_notes", {}).items():
+        lines.append(
+            f"- Warning: `{col}` has dates whose day and month order is {order}; "
+            "they were read month-first unless the setup recorded otherwise. Confirm."
+        )
 
     lines += ["", "## Low-cardinality values", ""]
     if result["low_cardinality"]:

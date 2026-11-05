@@ -26,6 +26,8 @@ DIP_FACTOR = 0.5
 # Tables with fewer dated rows than this are not checked for unusual months.
 MIN_ROWS_FOR_MONTHS = 200
 MAX_MONTH_FLAGS = 3
+# The latest date column is "far ahead" when it is this many days past the next one.
+COLUMNS_DISAGREE_DAYS = 31
 
 
 def unusual_months(df: pd.DataFrame, col: str) -> list[dict]:
@@ -91,6 +93,12 @@ def audit_table(path: Path) -> dict:
             }],
         }
 
+    if df.shape[1] == 1 and any(sep in str(df.columns[0]) for sep in (";", "\t", "|")):
+        flags.append({
+            "what": "The whole file was read as one column, so it probably uses a different separator.",
+            "affects": "everything: no column below is real until the file is exported with commas",
+        })
+
     if len(df) == 0:
         flags.append({"what": "The table has no rows.", "affects": "every question that needs it"})
     elif len(df) < TINY_TABLE_ROWS:
@@ -113,6 +121,14 @@ def audit_table(path: Path) -> dict:
             "what": f"{duplicate_rows:,} rows are exact copies of another row.",
             "affects": "every count and sum: they are counted twice",
         })
+        if id_column:
+            repeats_after = int(df.drop_duplicates()[id_column].duplicated().sum())
+            if repeats_after:
+                flags.append({
+                    "what": (f"Even after removing exact copies, `{id_column}` still repeats "
+                             f"{repeats_after:,} times: the same id with different content."),
+                    "affects": "any count by id and any join; ask which version is right",
+                })
 
     columns = []
     for col in df.columns:
@@ -177,15 +193,21 @@ def guess_today(tables: list[dict]) -> dict:
     Also says whether the last month looks partial, because a partial month must not be
     read as a result. The user confirms or corrects the date.
     """
-    latest = None
-    latest_where = None
+    by_column = []
     for table in tables:
         for col in table.get("date_columns", []):
-            day = pd.Timestamp(col["max"])
-            if latest is None or day > latest:
-                latest, latest_where = day, f"{table['table']}.{col['name']}"
-    if latest is None:
+            by_column.append({"column": f"{table['table']}.{col['name']}", "max": col["max"]})
+    if not by_column:
         return {"found": False, "note": "No date columns found, so no 'today' can be guessed."}
+    by_column.sort(key=lambda c: c["max"], reverse=True)
+    latest = pd.Timestamp(by_column[0]["max"])
+    latest_where = by_column[0]["column"]
+    # A column of renewal, due or expiry dates reaches into the future and would pull the
+    # guess past the real end of the data. Say so when the columns disagree by over a month.
+    columns_disagree = (
+        len(by_column) > 1
+        and (latest - pd.Timestamp(by_column[1]["max"])).days > COLUMNS_DISAGREE_DAYS
+    )
     month_days = latest.days_in_month
     partial = (latest.day / month_days) < PARTIAL_MONTH_SHARE
     return {
@@ -193,15 +215,22 @@ def guess_today(tables: list[dict]) -> dict:
         "latest_date": latest.date().isoformat(),
         "found_in": latest_where,
         "last_month_looks_partial": bool(partial),
+        "latest_column_is_far_ahead": bool(columns_disagree),
+        "by_column": by_column,
     }
 
 
 def audit_folder(data_dir: str | Path = "data") -> dict:
     """Audit every CSV in a folder and return the full picture as one dict."""
     data_dir = Path(data_dir)
-    files = sorted(data_dir.glob("*.csv"))
-    other = sorted(p.name for p in data_dir.iterdir() if p.is_file()
-                   and p.suffix.lower() != ".csv" and p.name != ".gitkeep")
+    if not data_dir.is_dir():
+        return {"folder": str(data_dir), "error": f"Folder {data_dir} does not exist.",
+                "csv_files": [], "tables": [], "shared_columns": [], "other_files_ignored": [],
+                "today_guess": {"found": False, "note": "No data folder."}}
+    # Match .csv in any letter case (DATA.CSV is a CSV too).
+    everything = sorted(p for p in data_dir.iterdir() if p.is_file() and p.name != ".gitkeep")
+    files = [p for p in everything if p.suffix.lower() == ".csv"]
+    other = [p.name for p in everything if p.suffix.lower() != ".csv"]
     tables = [audit_table(p) for p in files]
     return {
         "folder": str(data_dir),

@@ -28,6 +28,7 @@ Never print raw rows into the conversation. Aggregates only.
 - [ ] **Grain:** what does one row stand for (a user, an order, a payment)? Does every count use the same grain?
 - [ ] **Denominators:** is every rate divided by the right group, and is that group stated? Parts should sum to totals.
 - [ ] **Date boundaries:** are periods inclusive or exclusive on purpose? Is the analysis date in `knowledge/context.md` respected (not the computer's date), and are unfinished periods or unmatured trials kept out of the comparison?
+- [ ] **Raw rows:** does any printed output, result table or chart expose individual records instead of aggregates?
 - [ ] **Filters:** which rows does each filter remove, and is that what the question needs?
 
 ## Then reasoning

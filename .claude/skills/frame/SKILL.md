@@ -18,8 +18,8 @@ Get the business question, the decision behind it and the audience into one note
 1. Check the parts below against what the user wrote.
 2. **Gate:** if no decision is named, ask the user and stop. Do not continue without one. Never reconstruct a decision yourself. Ask the same way if what would change the decision is missing.
 3. **Pin down vague words.** Find any word in the question that could reasonably mean more than one thing (for example retention, churn, cost, active, at-risk). For each one, ask the user with AskUserQuestion, offering 2 or 3 meanings with the one you recommend first. Never pick a meaning yourself. If every word is already clear, ask nothing.
-4. Create the run folder `outputs/<date>_<slug>/`. The date is today's date from `knowledge/context.md` (the line `today:`, which is the data's end date, not the real calendar date). If `knowledge/context.md` does not exist, tell the user to run `/setup` first and stop. The slug is 2 to 4 words in kebab-case describing the question.
-5. Read what exists: list the files in `data/` and read the notes in `knowledge/`. Use file names and notes only. Never print raw rows.
+4. Create the run folder `outputs/<date>_<slug>/` with `data/` and `charts/` folders inside it (later steps save into them and fail if they are missing). The date is today's date from `knowledge/context.md` (the line `today:`, which is the data's end date, not the real calendar date). If `knowledge/context.md` does not exist, tell the user to run `/setup` first and stop. The slug is 2 to 4 words in kebab-case describing the question.
+5. Read what exists: `knowledge/context.md` (what the business is, the usual decision type and audience from setup; use them only as suggestions to offer, never as the answer), list the files in `data/`, and read the notes in `knowledge/`. Use file names and notes only. Never print raw rows.
 6. Write `frame.md` in the run folder with the sections below.
 7. Finish with the run folder path and the one-sentence question. Nothing else.
 
